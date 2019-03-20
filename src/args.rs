@@ -10,6 +10,6 @@ mod unit_tests;
 #[derive(Debug, StructOpt)]
 #[structopt(rename_all = "kebab-case")]
 pub struct Args {
-    /// Sample argument (can be of any type).  Use `Option<some_type>` for optional arguments
-    pub some_arg: usize,
+    //    /// Sample argument (can be of any type).  Use `Option<some_type>` for optional arguments
+//    pub some_arg: usize,
 }
