@@ -1,6 +1,6 @@
 #![warn(clippy::all, clippy::nursery, clippy::pedantic, rust_2018_idioms)]
 // To use `unsafe` keyword, change to `#![allow(unsafe_code)]` (do not remove); aids auditing.
-#![forbid(unsafe_code)]
+#![forbid(bare_trait_objects, unsafe_code)]
 #![forbid(overflowing_literals)]
 // Safety-critical application lints
 #![deny(
