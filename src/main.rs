@@ -7,7 +7,7 @@
 
 // Safety-critical application lints
 #![deny(clippy::pedantic, clippy::float_cmp_const, clippy::indexing_slicing, clippy::integer_arithmetic,
-clippy::option_unwrap_used, clippy::result_unwrap_used)]
+clippy::option_unwrap_used, clippy::result_unwrap_used,)]
 
 // Uncomment before ship to reconcile use of possibly redundant crates, debug remnants, missing license files and more
 //#![warn(clippy::cargo, clippy::restriction, missing_docs, warnings)]
