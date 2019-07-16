@@ -7,6 +7,6 @@ mod unit_tests;
 #[derive(Debug, StructOpt)]
 #[structopt(rename_all = "kebab-case")]
 pub struct Args {
-//    /// Optional argument indicating absence or presence and amount of `some_feature`.
+    //    /// Optional argument indicating absence or presence and amount of `some_feature`.
 //    pub some_arg: Option<usize>,
 }

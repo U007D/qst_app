@@ -49,4 +49,3 @@ fn args_given_an_invalid_argument_fails() {
     // then it should return an error
     assert_eq!(result.is_err(), true);
 }
-
