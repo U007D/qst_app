@@ -21,10 +21,9 @@ mod consts;
 mod error;
 
 use pico_args::Arguments;
-use std::result::Result as StdResult;
-pub use {args::Args, consts::*, error::Error};
+pub use {consts::*, error::Error};
 
-pub type Result<T> = StdResult<T, Error>;
+pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 
 fn main() -> Result<()> {

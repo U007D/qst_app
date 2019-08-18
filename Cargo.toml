@@ -13,7 +13,6 @@ version = "0.1.0"
 snafu = "*"
 pico-args = "*"
 
-
 [profile.dev]
 codegen-units = 1
 debug = true

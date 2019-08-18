@@ -20,52 +20,56 @@
 mod app_args {
     #[derive(Clone, Debug, PartialEq)]
     pub struct AppArgs {
-        help: bool,
-        number: u32,
-        opt_number: Option<u32>,
-        width: u32,
-        free: Vec<String>,
+        pub help: bool,
+        pub number: u32,
+        pub opt_number: Option<u32>,
+        pub width: u32,
+        pub free: Vec<String>,
     }
 }
 mod consts {
     pub mod msg {
+        #![allow(dead_code)]
+
         pub const ERR_ARG_NOT_VALID_USIZE: &str =
             "Error: supplied argument could not be converted to a `usize`";
         pub const ERR_ARG_NOT_POSITIVE: &str =
             "Error: supplied argument must be positive (ie. > 0)";
-        pub const ERR_ARGS_PROCESSING: &str = "Error processing args";
+        pub const ERR_ARG_PROCESSING: &str = "Error processing command-line argument";
     }
 }
 
 mod error {
-    use crate::consts::msg;
     use snafu::Snafu;
-    use pico_args::Error as PicoArgsError;
-    use std::num::ParseIntError as NumParseIntError;
 
-    #[derive(Debug, Display, Snafu)]
+    #[derive(Debug, Snafu)]
     pub enum Error {
-        #[snafu(display(fmt = "{}: {:?}", "msg::ERR_ARG_NOT_VALID_USIZE", "_0"))]
-        ArgInvalidIntegralValue { source: NumParseIntError, },
-        #[snafu(display(fmt = "{}: {}", "msg::ERR_ARG_NOT_POSITIVE", "value"))]
+        #[snafu(display("{}: {:?}", "msg::ERR_ARG_NOT_VALID_USIZE", "source"))]
+        ArgInvalidIntegralValue { source: std::num::ParseIntError, },
+        #[snafu(display("{}: {}", "msg::ERR_ARG_NOT_POSITIVE", "value"))]
         ArgNonPositiveValue { value: String, },
-        #[snafu(display(fmt = "{}: {}", "msg::ERR_ARGS_PROCESSING", "source"))]
-        ArgsProcessing { source: PicoArgsError, },
+        #[snafu(display("{}: {:?}", "msg::ERR_ARG_PROCESSING", "source"))]
+        ArgProcessing { source: pico_args::Error, },
+    }
+
+    impl From<pico_args::Error> for Error {
+        fn from(source: pico_args::Error) -> Self {
+            Self::ArgProcessing { source }
+        }
     }
 }
 
 use pico_args::Arguments;
-use std::result::Result as StdResult;
 use {app_args::AppArgs, error::Error};
 
-pub type Result<T> = StdResult<T, Error>;
+pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 fn parse_width(s: &str) -> Result<u32> {
     s.parse()
-        .map_err(|e| Error::ArgInvalidIntegralValue(e))
+        .map_err(|e| Error::ArgInvalidIntegralValue { source: e })
         .and_then(|w| match w > 0 {
             true => Ok(w),
-            false => Err(Error::ArgNonPositiveValue(s.to_string())),
+            false => Err(Error::ArgNonPositiveValue { value : s.to_string() }),
         })
 }
 
