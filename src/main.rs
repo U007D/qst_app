@@ -5,12 +5,12 @@
 #![forbid(unsafe_code)]
 // Safety-critical application lints
 #![deny(
-clippy::pedantic,
-clippy::float_cmp_const,
-clippy::indexing_slicing,
-clippy::integer_arithmetic,
-clippy::option_unwrap_used,
-clippy::result_unwrap_used
+    clippy::pedantic,
+    clippy::float_cmp_const,
+    clippy::indexing_slicing,
+    clippy::integer_arithmetic,
+    clippy::option_unwrap_used,
+    clippy::result_unwrap_used
 )]
 
 // Uncomment before ship to reconcile use of possibly redundant crates, debug remnants, missing license files and more
@@ -28,6 +28,7 @@ pub type Result<T> = StdResult<T, Error>;
 
 
 fn main() -> Result<()> {
+    // see examples/pico_args.rs for argument parsing example
     let _args_parser = Arguments::from_env();
 
     Ok(())

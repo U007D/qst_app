@@ -39,19 +39,18 @@ mod consts {
 
 mod error {
     use crate::consts::msg;
-    use derive_more::{Display, From};
-    //    use std::str::FromStr;
+    use snafu::Snafu;
     use pico_args::Error as PicoArgsError;
-    use std::num::ParseIntError;
+    use std::num::ParseIntError as NumParseIntError;
 
-    #[derive(Debug, Display, From)]
+    #[derive(Debug, Display, Snafu)]
     pub enum Error {
-        #[display(fmt = "{}: {:?}", "msg::ERR_ARG_NOT_VALID_USIZE", "_0")]
-        ArgInvalidIntegralValue(ParseIntError),
-        #[display(fmt = "{}: {}", "msg::ERR_ARG_NOT_POSITIVE", "_0")]
-        ArgNonPositiveValue(String),
-        #[display(fmt = "{}: {}", "msg::ERR_ARGS_PROCESSING", "_0")]
-        ArgsProcessing(PicoArgsError),
+        #[snafu(display(fmt = "{}: {:?}", "msg::ERR_ARG_NOT_VALID_USIZE", "_0"))]
+        ArgInvalidIntegralValue { source: NumParseIntError, },
+        #[snafu(display(fmt = "{}: {}", "msg::ERR_ARG_NOT_POSITIVE", "value"))]
+        ArgNonPositiveValue { value: String, },
+        #[snafu(display(fmt = "{}: {}", "msg::ERR_ARGS_PROCESSING", "source"))]
+        ArgsProcessing { source: PicoArgsError, },
     }
 }
 

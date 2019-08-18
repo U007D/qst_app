@@ -10,12 +10,9 @@ repository = "https://github.com/u007d/{{project-name}}"
 version = "0.1.0"
 
 [dependencies]
-derive_more = "*"
-pico-args = "0.1.0"
+snafu = "*"
+pico-args = "*"
 
-
-[dev-dependencies]
-pretty_assertions = "*"
 
 [profile.dev]
 codegen-units = 1
