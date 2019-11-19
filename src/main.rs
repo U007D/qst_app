@@ -25,7 +25,6 @@ pub use {consts::*, error::Error};
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
-
 fn main() -> Result<()> {
     // see examples/pico_args.rs for argument parsing example
     let _args_parser = Arguments::from_env();

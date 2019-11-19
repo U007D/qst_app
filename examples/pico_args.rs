@@ -40,16 +40,18 @@ mod consts {
 }
 
 mod error {
-    use snafu::Snafu;
+    #![allow(clippy::pub_enum_variant_names)]
+    use crate::consts::msg;
+    use derive_more::Display;
 
-    #[derive(Debug, Snafu)]
+    #[derive(Debug, Display)]
     pub enum Error {
-        #[snafu(display("{}: {:?}", "msg::ERR_ARG_NOT_VALID_USIZE", "source"))]
-        ArgInvalidIntegralValue { source: std::num::ParseIntError, },
-        #[snafu(display("{}: {}", "msg::ERR_ARG_NOT_POSITIVE", "value"))]
-        ArgNonPositiveValue { value: String, },
-        #[snafu(display("{}: {:?}", "msg::ERR_ARG_PROCESSING", "source"))]
-        ArgProcessing { source: pico_args::Error, },
+        #[display(fmt = "{}: {:?}", msg::ERR_ARG_NOT_VALID_USIZE, source)]
+        ArgInvalidIntegralValue { source: std::num::ParseIntError },
+        #[display(fmt = "{}: {}", msg::ERR_ARG_NOT_POSITIVE, value)]
+        ArgNonPositiveValue { value: String },
+        #[display(fmt = "{}: {:?}", msg::ERR_ARG_PROCESSING, source)]
+        ArgProcessing { source: pico_args::Error },
     }
 
     impl From<pico_args::Error> for Error {
@@ -69,7 +71,9 @@ fn parse_width(s: &str) -> Result<u32> {
         .map_err(|e| Error::ArgInvalidIntegralValue { source: e })
         .and_then(|w| match w > 0 {
             true => Ok(w),
-            false => Err(Error::ArgNonPositiveValue { value : s.to_string() }),
+            false => Err(Error::ArgNonPositiveValue {
+                value: s.to_string(),
+            }),
         })
 }
 
@@ -79,9 +83,11 @@ fn main() -> Result<()> {
         "{:?}",
         AppArgs {
             help: args.contains(["-h", "--help"]),
-            number: args.value_from_str("--number")?.unwrap_or(5),
-            opt_number: args.value_from_str("--opt-number")?,
-            width: args.value_from_fn("--width", parse_width)?.unwrap_or(10),
+            number: args.opt_value_from_str("--number")?.unwrap_or(5),
+            opt_number: args.opt_value_from_str("--opt-number")?,
+            width: args
+                .opt_value_from_fn("--width", parse_width)?
+                .unwrap_or(10),
             free: args.free()?,
         }
     );
