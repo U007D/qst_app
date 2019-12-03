@@ -42,22 +42,16 @@ mod consts {
 mod error {
     #![allow(clippy::pub_enum_variant_names)]
     use crate::consts::msg;
-    use derive_more::Display;
+    use thiserror::Error;
 
-    #[derive(Debug, Display)]
+    #[derive(Debug, Error)]
     pub enum Error {
-        #[display(fmt = "{}: {:?}", msg::ERR_ARG_NOT_VALID_USIZE, source)]
-        ArgInvalidIntegralValue { source: std::num::ParseIntError },
-        #[display(fmt = "{}: {}", msg::ERR_ARG_NOT_POSITIVE, value)]
-        ArgNonPositiveValue { value: String },
-        #[display(fmt = "{}: {:?}", msg::ERR_ARG_PROCESSING, source)]
-        ArgProcessing { source: pico_args::Error },
-    }
-
-    impl From<pico_args::Error> for Error {
-        fn from(source: pico_args::Error) -> Self {
-            Self::ArgProcessing { source }
-        }
+        #[error("{}: {}", msg::ERR_ARG_NOT_VALID_USIZE, 0)]
+        ArgInvalidIntegralValue(#[from] std::num::ParseIntError),
+        #[error("{}: {}", msg::ERR_ARG_NOT_POSITIVE, 0)]
+        ArgNonPositiveValue(String),
+        #[error("{}: {}", msg::ERR_ARG_PROCESSING, 0)]
+        ArgProcessing(#[from] pico_args::Error),
     }
 }
 
@@ -68,12 +62,10 @@ pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 fn parse_width(s: &str) -> Result<u32> {
     s.parse()
-        .map_err(|e| Error::ArgInvalidIntegralValue { source: e })
+        .map_err(|e| Error::ArgInvalidIntegralValue(e))
         .and_then(|w| match w > 0 {
             true => Ok(w),
-            false => Err(Error::ArgNonPositiveValue {
-                value: s.to_string(),
-            }),
+            false => Err(Error::ArgNonPositiveValue(s.to_string())),
         })
 }
 

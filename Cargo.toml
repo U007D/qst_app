@@ -10,8 +10,8 @@ repository = "https://github.com/u007d/{{project-name}}"
 version = "0.1.0"
 
 [dependencies]
-pico-args = "*"
-derive_more = "*"
+pico-args = "0.3.0"
+thiserror = "1.0.6"
 
 [profile.dev]
 codegen-units = 1
