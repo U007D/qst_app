@@ -25,10 +25,10 @@ mod args;
 mod consts;
 mod error;
 
-use pico_args::Arguments;
-pub use {args::Args, consts::*, error::Error};
+use structopt::StructOpt;
+use {args::Args, consts::*, error::Error};
 
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+type Result<T, E = Error> = std::result::Result<T, E>;
 
 fn main() -> Result<()> {
     let _args = Args::from_args();
