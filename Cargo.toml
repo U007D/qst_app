@@ -9,12 +9,15 @@ readme = "README.md"
 repository = "https://github.com/u007d/{{project-name}}"
 version = "0.1.0"
 
+[lib]
+name = "lib"
+path = "src/lib.rs"
+
 [dependencies]
 structopt = "*"
 thiserror = "*"
 
 [profile.dev]
-codegen-units = 1
 debug = true
 debug-assertions = true
 lto = false
@@ -26,13 +29,12 @@ rpath = false
 codegen-units = 1
 debug = false
 debug-assertions = false
-lto = true
+lto = "fat"
 opt-level = 3
 panic = "unwind"
 rpath = false
 
 [profile.test]
-codegen-units = 1
 debug = true
 debug-assertions = true
 lto = false

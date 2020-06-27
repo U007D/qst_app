@@ -1,6 +1,6 @@
 use structopt::StructOpt;
 
-/// See unit_tests for sample usages and how to drive CLI argument parsing from tests.
+/// See `unit_tests` for sample usages and how to drive CLI argument parsing from tests.
 #[cfg(test)]
 mod unit_tests;
 

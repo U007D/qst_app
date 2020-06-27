@@ -24,9 +24,14 @@
 //#![warn(clippy::cargo, clippy::restriction, missing_docs, clippy::missing_errors_doc, warnings)]
 //#![deny(warnings)]
 
-use {lib::{self, Args, error::Result}};
-use structopt::StructOpt;
+mod args;
+pub mod consts;
+pub mod error;
 
-fn main() -> Result<()> {
-    lib::main(Args::from_args())
+pub use args::Args;
+use error::Result;
+
+#[allow(clippy::needless_pass_by_value)]
+pub fn main(_args: Args) -> Result<()> {
+    Ok(())
 }
