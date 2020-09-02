@@ -1,10 +1,11 @@
+use assert2::assert;
 use structopt::StructOpt;
 
 /// Args is a data structure representing the user's supplied command-line arguments supplied to the program.
 #[derive(Debug, StructOpt)]
 #[structopt(rename_all = "kebab-case")]
 pub struct TestArgs {
-    /// Optional argument indicating absence or presence and amount of "some feature".
+    /// Optional argument indicating absence or presence + amount of "some feature".
     pub some_arg: Option<usize>,
 }
 
@@ -22,7 +23,7 @@ fn args_given_a_valid_argument_succeeds() {
     let result = sut(&args);
 
     // then it should be OK
-    assert_eq!(result.is_ok(), true);
+    assert!(result.is_ok() == true);
 }
 
 #[test]
@@ -38,7 +39,7 @@ fn args_given_a_valid_non_argument_succeeds() {
     let result = sut(&args);
 
     // then it should be OK
-    assert_eq!(result.is_ok(), true);
+    assert!(result.is_ok() == true);
 }
 
 #[test]
@@ -55,5 +56,5 @@ fn args_given_an_invalid_argument_fails() {
     let result = sut(&args);
 
     // then it should return an error
-    assert_eq!(result.is_err(), true);
+    assert!(result.is_err() == true);
 }

@@ -15,7 +15,10 @@ path = "src/lib.rs"
 
 [dependencies]
 structopt = "*"
-thiserror = "*"
+thiserror = "1"
+
+[dev-dependencies]
+assert2 = "*"
 
 [profile.dev]
 debug = true
