@@ -1,3 +1,5 @@
+mod io;
+
 use crate::consts::msg;
 use std::ffi::OsString;
 use thiserror::Error;
@@ -8,6 +10,8 @@ pub type Result<T, E = Error> = std::result::Result<T, E>;
 pub enum Error {
     #[error("{}: {:?}", msg::ERR_ARG_NOT_CONVERTIBLE_TO_UTF_8, 0)]
     ArgNotConvertibleToUtf8(std::ffi::OsString),
+    #[error(transparent)]
+    IoError(#[from] io::Error),
 }
 
 // Note: `std::ffi::OsString is not `Error` so `thiserror` `#[from]` is not supported,
