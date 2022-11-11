@@ -14,6 +14,7 @@
     clippy::match_bool,
     clippy::missing_errors_doc,
     clippy::module_name_repetitions,
+    clippy::similar_names,
     clippy::wildcard_imports
 )]
 // To use the `unsafe` keyword, do not remove the `unsafe_code` attribute entirely.
@@ -27,9 +28,12 @@
 // #![warn(clippy::cargo, clippy::restriction, missing_docs, warnings)]
 // #![allow(clippy::implicit_return)]
 
-use lib::{self, error::Result, lib_main, Args};
 use structopt::StructOpt;
 
+use lib::{self, Args, error::Result};
+
 fn main() -> Result<()> {
-    lib_main(Args::from_args())
+    let _args = Args::from_args_safe()?;
+
+    Ok(())
 }

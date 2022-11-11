@@ -14,6 +14,7 @@
     clippy::match_bool,
     clippy::missing_errors_doc,
     clippy::module_name_repetitions,
+    clippy::similar_names,
     clippy::wildcard_imports
 )]
 // To use the `unsafe` keyword, do not remove the `unsafe_code` attribute entirely.
@@ -33,8 +34,3 @@ pub mod error;
 
 pub use args::Args;
 use error::Result;
-
-#[allow(clippy::missing_const_for_fn, clippy::needless_pass_by_value)] //remove when `lib_main` impl'ed
-pub fn lib_main(_args: Args) -> Result<()> {
-    Ok(())
-}
