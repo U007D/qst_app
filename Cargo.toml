@@ -15,7 +15,8 @@ name = "lib"
 path = "src/lib.rs"
 
 [dependencies]
-structopt = "*"
+bool_ext = "*"
+he_std = { git = "ssh://github/u007d/he_std.git", branch = "main" }
 thiserror = "*"
 
 [dev-dependencies]

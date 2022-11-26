@@ -1,5 +1,3 @@
-#![warn(clippy::all, clippy::nursery, clippy::pedantic, rust_2018_idioms)]
-// Safety-critical application lints
 #![deny(
     clippy::pedantic,
     clippy::float_cmp_const,
@@ -7,6 +5,8 @@
     clippy::integer_arithmetic,
     clippy::unwrap_used
 )]
+#![warn(clippy::all, clippy::nursery, clippy::pedantic, rust_2018_idioms)]
+// Safety-critical application lints
 #![allow(
     clippy::equatable_if_let,
     clippy::implicit_return,
@@ -28,12 +28,17 @@
 // #![warn(clippy::cargo, clippy::restriction, missing_docs, warnings)]
 // #![allow(clippy::implicit_return)]
 
-use structopt::StructOpt;
+use std::{env, error::Error as StdError};
 
-use lib::{self, Args, error::Result};
+use he_std::{
+    args::{ArgsCx, ParseArgs},
+    error::display_debug::{Error as DisplayDebugError, Result},
+};
 
-fn main() -> Result<()> {
-    let _args = Args::from_args_safe()?;
+use lib::{self, args::Args};
+
+fn main() -> Result<(), DisplayDebugError<impl StdError>> {
+    let _args = Args::try_parse(env::args_os(), ArgsCx::default()).map_err(Error::from)?;
 
     Ok(())
 }

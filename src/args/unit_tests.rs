@@ -1,60 +1,48 @@
+#![allow(clippy::unwrap_used)]
+
+#[allow(unused_imports)]
+use super::*;
 use assert2::assert;
-use structopt::StructOpt;
 
-/// Args is a data structure representing the user's supplied command-line arguments supplied to the program.
-#[derive(Debug, StructOpt)]
-#[structopt(rename_all = "kebab-case")]
-pub struct TestArgs {
-    /// Optional argument indicating absence or presence + amount of "some feature".
-    pub some_arg: Option<usize>,
+#[test]
+fn attempt_to_create_args_from_no_parameters_fails() {
+    /* Given */
+    let expected_res = Err(Error::BadArgCount(0, 1));
+    let no_args = Vec::new().into_boxed_slice();
+    let sut = Args::try_from;
+
+    /* When */
+    let res = sut(no_args);
+
+    /* Then */
+    assert!(res == expected_res);
 }
 
 #[test]
-fn args_given_a_valid_argument_succeeds() {
-    // setup
-    let app = "test";
-    let arg = "3";
-    let args = vec![app, arg];
+fn attempt_to_create_args_from_one_parameter_succeeds() {
+    /* Given */
+    let one_arg = vec!["sample".into()].into_boxed_slice();
+    let sut = Args::try_from;
 
-    // given a `StructOpt::from_iter()` constructor
-    let sut = TestArgs::from_iter_safe::<&Vec<&str>>;
+    /* When */
+    let res = sut(one_arg);
 
-    // when it is invoked
-    let result = sut(&args);
-
-    // then it should be OK
-    assert!(result.is_ok() == true);
+    /* Then */
+    assert!(res.is_ok());
 }
+
 
 #[test]
-fn args_given_a_valid_non_argument_succeeds() {
-    // setup
-    let app = "test";
-    let args = vec![app];
+fn attempt_to_create_args_from_two_parameters_fails() {
+    /* Given */
+    let expected_res = Err(Error::BadArgCount(2, 1));
+    let two_args = vec!["one".into(), "two".into()].into_boxed_slice();
+    let sut = Args::try_from;
 
-    // given a `StructOpt::from_iter()` constructor
-    let sut = TestArgs::from_iter_safe::<&Vec<&str>>;
+    /* When */
+    let res = sut(two_args);
 
-    // when it is invoked
-    let result = sut(&args);
-
-    // then it should be OK
-    assert!(result.is_ok() == true);
+    /* Then */
+    assert!(res == expected_res);
 }
 
-#[test]
-fn args_given_an_invalid_argument_fails() {
-    // setup
-    let app = "test";
-    let arg = "hello";
-    let args = vec![app, arg];
-
-    // given a `StructOpt::from_iter()` constructor
-    let sut = TestArgs::from_iter_safe::<&Vec<&str>>;
-
-    // when it is invoked
-    let result = sut(&args);
-
-    // then it should return an error
-    assert!(result.is_err() == true);
-}

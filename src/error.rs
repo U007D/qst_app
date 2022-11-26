@@ -1,7 +1,7 @@
 pub mod arg;
 pub mod io;
 
-use crate::consts::*;
+use crate::shared_consts::*;
 use thiserror::Error;
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
@@ -13,11 +13,4 @@ pub enum Error {
     ArgError(#[from] arg::Error),
     #[error("{}: {:?}: ", msg::ERR_IO, 0)]
     IoError(#[from] io::Error),
-}
-
-
-impl From<std::ffi::OsString> for Error {
-    fn from(oss: std::ffi::OsString) -> Self {
-        arg::Error::from(oss).into()
-    }
 }

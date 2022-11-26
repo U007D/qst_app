@@ -1,5 +1,5 @@
 use std::ffi::OsString;
-use crate::consts::*;
+use crate::shared_consts::*;
 use thiserror::Error;
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
@@ -8,21 +8,15 @@ pub type Result<T, E = Error> = std::result::Result<T, E>;
 #[derive(Clone, Debug, Error, PartialEq)]
 pub enum Error {
     #[error("{}: {0:?}", msg::ERR_ARG_NOT_CONVERTIBLE_TO_UTF_8)]
-    ArgNotConvertibleToUtf8(std::ffi::OsString),
-    #[error("{}: {} {0} {} {1}.", msg::ERR_BAD_ARG_COUNT, msg::RECEIVED, msg::BUT_EXPECTED)]
+    ArgNotConvertibleToUtf8(OsString),
+    #[error("{}: {} {0:?} {} {1} arguments.", msg::ERR_BAD_ARG_COUNT, msg::RECEIVED, msg::BUT_EXPECTED)]
     BadArgCount(usize, usize),
     #[error("{}: {0:?}", msg::ERR_ARG_PARSE)]
-    ArgumentParsingError(std::ffi::OsString),
+    ArgumentParsingError(OsString),
 }
 
-impl From<std::ffi::OsString> for Error {
+impl From<OsString> for Error {
     fn from(oss: std::ffi::OsString) -> Self {
         Self::ArgNotConvertibleToUtf8(oss)
-    }
-}
-
-impl From<gumdrop::Error> for Error {
-    fn from(err: gumdrop::Error) -> Self {
-        Self::ArgumentParsingError(OsString::from(format!("{err:?}")))
     }
 }
