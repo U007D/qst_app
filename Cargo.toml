@@ -17,6 +17,7 @@ path = "src/lib.rs"
 [dependencies]
 bool_ext = "*"
 he_std = { git = "ssh://github/u007d/he_std.git", branch = "main" }
+termination = "*"
 thiserror = "*"
 
 [dev-dependencies]

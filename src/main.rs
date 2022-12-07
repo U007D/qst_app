@@ -28,16 +28,14 @@
 // #![warn(clippy::cargo, clippy::restriction, missing_docs, warnings)]
 // #![allow(clippy::implicit_return)]
 
-use std::{env, error::Error as StdError};
+use std::env;
 
-use he_std::{
-    args::{ArgsCx, ParseArgs},
-    error::display_debug::{Error as DisplayDebugError, Result},
-};
+use he_std::args::{ArgsCx, ParseArgs};
 
-use lib::{self, args::Args};
+use lib::{self, args::Args, Error, Result};
 
-fn main() -> Result<(), DisplayDebugError<impl StdError>> {
+#[termination::display]
+fn main() -> Result<()> {
     let _args = Args::try_parse(env::args_os(), ArgsCx::default()).map_err(Error::from)?;
 
     Ok(())
