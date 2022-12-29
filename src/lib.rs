@@ -29,7 +29,7 @@
 // #![allow(clippy::implicit_return)]
 
 pub mod args;
-pub mod shared_consts;
 pub mod error;
+pub mod shared_consts;
 
 pub use error::{Error, Result};

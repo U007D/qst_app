@@ -30,7 +30,7 @@
 
 use std::env;
 
-use he_std::args::{ArgsCx, ParseArgs};
+use he_std::args::ParseArgs;
 
 use lib::{self, args::Args, Error, Result};
 
