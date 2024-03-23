@@ -1,6 +1,6 @@
 #![allow(clippy::unwrap_used)]
 
-#[allow(unused_imports)]
+#[allow(unused_imports, wildcard_imports)]
 use super::*;
 use assert2::assert;
 

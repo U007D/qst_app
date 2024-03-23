@@ -1,6 +1,7 @@
 pub mod arg;
 pub mod io;
 
+#[allow(clippy::wildcard_imports)]
 use crate::shared_consts::*;
 use thiserror::Error;
 
