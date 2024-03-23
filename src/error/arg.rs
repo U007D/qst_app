@@ -1,4 +1,5 @@
 use std::ffi::OsString;
+#[allow(clippy::wildcard_imports)]
 use crate::shared_consts::*;
 use thiserror::Error;
 
