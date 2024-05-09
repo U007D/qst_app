@@ -1,12 +1,10 @@
-use std::env;
+use lib::{self, Result};
 
-use he_std::args::ParseArgs;
-
-use lib::{self, args::Args, Error, Result};
-
+#[expect(
+    clippy::missing_const_for_fn,
+    reason = "Remove this attribute when function body is implemented"
+)]
 #[termination::display]
 fn main() -> Result<()> {
-    let _args = Args::try_parse(env::args_os()).map_err(Error::from)?;
-
     Ok(())
 }

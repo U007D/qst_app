@@ -1,17 +1,11 @@
-pub mod arg;
-pub mod io;
-
-#[allow(clippy::wildcard_imports)]
+#[expect(clippy::wildcard_imports, reason = "Ok to use wildcard import on `shared_consts`.")]
 use crate::shared_consts::*;
 use thiserror::Error;
 
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+pub type Result<T, E = Error> = core::result::Result<T, E>;
 
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Debug, Error, PartialEq)]
+#[derive(Debug, Error)]
 pub enum Error {
-    #[error("{}: {:?}", msg::ERR_ARG, 0)]
-    ArgError(#[from] arg::Error),
-    #[error("{}: {:?}: ", msg::ERR_IO, 0)]
-    IoError(#[from] io::Error),
+    #[error("{}: {}: ", msg::ERR_IO, 0)]
+    Io(#[from] std::io::Error),
 }
